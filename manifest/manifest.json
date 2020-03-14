@@ -1,0 +1,15 @@
+{
+	"short_name": "Picker",
+	"name": "Pitch Picker",
+	"icons":	[
+	{
+		"src": "/images/logo.png",
+		"type": "image/png",
+		"sizes": "150x150"
+	}
+	],
+	"start_url": "/pitchpicker.html",
+	"display": "standalone",
+	"orientation": "portrait"
+}
+	

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- responsive scaling -->
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"> <!-- import jQuery Mobile CSS -->
+<link rel="stylesheet" href="css/styles.css"> <!-- import custom CSS styling -->
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script> <!-- import jQuery JS -->
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> <!-- import jQuery Mobile JS -->
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script> <!-- import Fbase JS -->
+<script src="js/map.js"></script> <!-- import custom Google Maps JS -->
+<link rel="shortcut icon" href=""> <!-- stop favicon error being logged in console -->
+<link rel="manifest" href="manifest/manifest.json"><!-- app manifest -->
+<title>Pitch Picker</title><!-- webpage tab title -->
+</head>
+
+<body>
+
+<!-- WELCOME PAGE (LOGIN / SIGN UP) -->
+
+<div data-role="page" id="welcome">
+  <div class="container" style="padding: 50px">
+    <div id="welcomeText">PitchPicker</div>
+    <img src="images/logo.png" alt="App logo" width="100" height="100"/>
+    <div class="container">
+      <input type="email" id="txtEmail" placeholder="Email" style="padding: 10px">
+      <input type="password" id="txtPassword" name="txtPassword" placeholder="Password" style="padding: 10px">
+      <button id="btnLogin">Login</button>
+      <button id="btnSignup">Sign Up</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- END OF WELCOME PAGE -->
+
+<!-- HOME PAGE -->
+
+<div data-role="page" id="home">
+    <div data-role="panel" id="helpPanel">
+      <h2>App Instructions</h2>
+      <h4>Book a football pitch</h4>
+      <p>Pitches are booked via the "Bookings" tab. Here you can select the type of pitch, the size, the number of players etc.</p>
+      <h4>Book football equipment</h4>
+      <p>PitchPicker users can book equipment via the "Bookings" tab. To view the list of available equipment, just expand the option which says "Book Equipment".</p>
+      <h4>Find a Sports Facility</h4>
+      <p>We have a list of available facilities listed on the "Find a Facility" tab. From here you can click on your desired location. This will show the facility's location via the Google Maps widget.</p>
+      <h4>View your previous bookings</h4>
+      <p>You can see a list of your previous bookings by going to the "My Account" tab and expanding the "Booking History" section. Previous bookings are listed with their unique Booking IDs. Please note: if you have never booked with us, you will not see anything in your "Booking History".</p>
+      <h4>Sign out of your account</h4>
+      <p>To sign out, go to the "My Account" tab and select "Sign Out" at the bottom of the page.</p>
+      <a href="#home" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left">Close</a>
+    </div>
+    <div id="customHeader">
+     PitchPicker 
+    </div>
+      <img src="images/logo.png" alt="App logo" width="100" height="100"/>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#home"data-icon="home">Home</a></li>
+            <li><a href="#bookings"data-icon="edit">Bookings</a></li>
+            <li><a href="#findFacility"data-icon="search">Find a Facility</a></li>
+            <li><a href="#myAccount"data-icon="star">My Account</a></li>
+          </ul>
+        </div>
+    
+
+    <div data-role="content" >
+      <h2>About PitchPicker</h2>
+        <p>PitchPicker is a mobile web application which is compatible with all smartphone devices and operating systems. The PitchPicker mobile web application is designed to enable members of the public to plan and book local 5, 7 and 11-a-side football pitches and facilities throughout the city of Glasgow and the West of Scotland. PitchPicker allows users to find their nearest football facilities using geolocation and Google Maps API. Furthermore, PitchPicker users are able to book equipment for playing football and training, such as; footballs, cones, hurdles, poles and coloured bibs.
+        </p>
+        <img src="images/footballpitch.jpg" alt="football pitch" style="width:400;" width="400" height="300" />
+    
+
+    <div data-role="collapsibleset" data-theme="a" data-content-theme="a">
+
+      <div data-role="collapsible">
+        <h1>About Booking</h1>
+        <p>To Book a football pitch (plus equipment), visit the "Bookings" tab to complete your booking form. Once submitted, you will receive a booking reference which will be stored in the "My Account" tab, in the "Booking History" section.</p>
+  	    <img src="images/football.jpg" alt="football" style="width:400;" width="400" height="200" />
+      </div>
+      <div data-role="collapsible">
+        <h1>About Equipment</h1>
+        <p>Equipment can be booked along with the football pitches. Equipment which can be booked: footballs, bibs, poles, cones and hurdles. A history of the equipment which has been booked is also stored in the "My Account" tab, in the "Booking History" section.</p>
+        <img src="images/equipment.jpg" alt="football equipment" style="width:300;" width="300" height="200" />
+      </div>
+      <div data-role="collapsible">
+        <h1>Benefits of PitchPicker</h1>
+  	    <p>PitchPicker aims to promote football in the local community, and enable people of all shapes, sizes and ability, the opportunity access local facilities in order to compete in Scotland's national sport.</p>
+  	    <img src="images/playingfootball.jpg" alt="people playing football" style="width:300;" width="300" height="300" />
+      </div>
+    </div>
+  </div>
+
+    <div data-role="footer" id="customFooter">
+  		<a href="#helpPanel" class="ui-btn ui-btn-inline">Help</a>
+  	</div>
+      
+</div>
+
+<!-- END OF HOME PAGE -->
+
+<!-- BOOK PITCH & EQUIPMENT PAGE -->
+
+<div data-role="page" id="bookings">
+
+  <div data-role="header">
+      <div id="customHeader">
+          PitchPicker 
+         </div>
+   <img src="images/logo.png" alt="App logo" width="100" height="100"/>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#home"data-icon="home">Home</a></li>
+        <li><a href="#bookings"data-icon="edit">Bookings</a></li>
+        <li><a href="#findFacility"data-icon="search">Find a Facility</a></li>
+        <li><a href="#myAccount"data-icon="star">My Account</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div data-role="content" >
+    <h2>Bookings</h2> 
+
+    <!-- START OF BOOKING FORM -->
+
+    <form id="bookingForm">
+      <div data-role="collapsibleset" data-theme="a" data-content-theme="a">
+          <!-- Book Pitch section -->
+          <div data-role="collapsible" id="bookPitchCollapse">
+              <h4>Book Pitch</h4>
+                  <!-- Type of pitch -->
+                  <div class="ui-field-contain">
+                      <label for="pitch-type">Type:</label>
+                      <select name="pitch-type" id="pitch-type" data-native-menu="false">
+                          <option value="choose-one" data-placeholder="true">Please select...</option>
+                          <option value="indoor">Indoor</option>
+                          <option value="outdoor">Outdoor</option>
+                      </select>
+                  </div>
+                  <!-- Size of pitch -->
+                  <div class="ui-field-contain">
+                      <label for="pitch-size">Size:</label>
+                      <select name="pitch-size" id="pitch-size" data-native-menu="false">
+                          <option value="choose-one" data-placeholder="true">Please select...</option>
+                          <option value="5-a-side">5-A-Side</option>
+                          <option value="7-a-side">7-A-Side</option>
+                          <option value="11-a-side">11-A-Side</option>
+                      </select>
+                  </div>
+                  <!-- Num of players -->
+                  <div class="ui-field-contain">
+                      <label for="pitch-players">No. of Players:</label>
+                      <select name="pitch-players" id="pitch-players" data-native-menu="false">
+                          <option value="choose-one" data-placeholder="true">Please select...</option>
+                          <option value="10">10</option>
+                          <option value="14">14</option>
+                          <option value="22">22</option>
+                      </select> 
+                  </div>
+                  <!-- Location of sports facility -->
+                  <div class="ui-field-contain">
+                      <label for="pitch-location">Location:</label>
+                      <select name="pitch-location" id="pitch-location" data-native-menu="false">
+                          <option value="choose-one" data-placeholder="true">Please select...</option>
+                          <option value="east_kilbride">East Kilbride</option>
+                          <option value="glasgow">Glasgow</option>
+                          <option value="hamilton">Hamilton</option>
+                          <option value="motherwell">Motherwell</option>
+                      </select>
+                  </div>
+                  <!-- Date of booking -->
+                  <div>
+                      <label for="pitch-date" style="padding-top: 15px">Date:</label>
+                      <input type="date" data-clear-btn="false" name="pitch-date" id="pitch-date" value="pitch-date">
+                  </div>
+                  <!-- Time of booking -->
+                  <div class="ui-field-contain">
+                      <label for="pitch-time">Time:</label>
+                      <select name="pitch-time" id="pitch-time" data-native-menu="false">
+                          <option value="choose-one" data-placeholder="true">Please select...</option>
+                          <option value="09:00">09:00</option>
+                          <option value="10:00">10:00</option>
+                          <option value="11:00">11:00</option>
+                          <option value="12:00">12:00</option>
+                          <option value="13:00">13:00</option>
+                          <option value="14:00">14:00</option>
+                          <option value="15:00">15:00</option>
+                          <option value="16:00">16:00</option>
+                      </select>
+                  </div>
+                  <!-- Duration of booking -->
+                  <div class="ui-field-contain">
+                      <label for="pitch-duration">Duration:</label>
+                      <select name="pitch-duration" id="pitch-duration" data-native-menu="false">
+                          <option value="choose-one" data-placeholder="true">Please select...</option>
+                          <option value="1hr">1 Hour</option>
+                          <option value="2hrs">2 Hours</option>
+                          <option value="3hrs">3 Hours</option>
+                      </select>
+                  </div>
+          </div>
+          
+          <!-- Book Equipment section -->
+          <div data-role="collapsible" id="bookEquipmentCollapse">
+            <h4>Book Equipment</h4>
+              <!-- Footballs -->
+              <div class="ui-field-contain">
+                <label for="equip-football">Footballs:</label>
+                <select name="equip-football" id="equip-football" data-native-menu="false">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+              <!-- Bibs -->
+              <div class="ui-field-contain">
+                <label for="equip-bib">Bibs:</label>
+                <select name="equip-bib" id="equip-bib" data-native-menu="false">
+                    <option value="0">0</option>
+                    <option value="10">10</option>
+                    <option value="14">14</option>
+                    <option value="22">22</option>
+                  </select>
+              </div>
+              <!-- Poles -->  
+              <div class="ui-field-contain">
+                <label for="equip-pole">Poles:</label>
+                <select name="equip-pole" id="equip-pole" data-native-menu="false">
+                    <option value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+              </div>
+              <!-- Hurdles -->
+              <div class="ui-field-contain">
+                <label for="equip-hurdle">Hurdles:</label>
+                <select name="equip-hurdle" id="equip-hurdle" data-native-menu="false">
+                    <option value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+              </div>
+              <!-- Cones -->
+              <div class="ui-field-contain">
+                <label for="equip-cone">Cones:</label>
+                <select name="equip-cone" id="equip-cone" data-native-menu="false">
+                    <option value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+              </div>
+          </div>
+
+      </div>
+
+      <fieldset class="ui-grid-a">
+        <!-- Submit button - sends form submission to Firebase using imported JS -->
+        <div class="ui-block-a"><input type="submit" value="Submit" data-theme="b" onclick="location.href='#confirmation';"></div>
+        <!-- Cancel button - resets the form-->
+        <div class="ui-block-b"><input type="reset" value="Cancel" data-theme="a"></div>
+      </fieldset> 
+      
+    </form>      
+  
+    <!-- END OF BOOKING FORM -->
+
+</div>
+
+<div data-role="footer" id="customFooter">
+    <a href="#home"data-icon="home">Return to Home</a>
+  </div>
+
+</div>
+
+<!-- END OF BOOK PITCH PAGE -->
+
+<!-- FIND A FACILITY PAGE -->
+
+<div data-role="page" id="findFacility">
+
+  <div data-role="header">
+      <div id="customHeader">
+          PitchPicker 
+         </div>
+   <img src="images/logo.png" alt="App logo" width="100" height="100"/>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#home"data-icon="home">Home</a></li>
+        <li><a href="#bookings"data-icon="edit">Bookings</a></li>
+        <li><a href="#findFacility"data-icon="search">Find a Facility</a></li>
+        <li><a href="#myAccount"data-icon="star">My Account</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div data-role="content" >
+    <h2>Find a Sports Facility</h2>
+
+    <!-- Buttons for changing map location -->
+    <div id="buttonBox">
+        <button onclick="setEk();" id="mapButton">East Kilbride</button>
+        <button onclick="setGlasgow();" id="mapButton">Glasgow</button>
+        <button onclick="setHamilton();" id="mapButton">Hamilton</button>
+        <button onclick="setMotherwell();" id="mapButton">Motherwell</button>    
+    </div>  
+
+    <!-- map canvas -->
+    <div id="map"></div>
+    
+    <!-- imports Google Maps API JavaScript and calls initMap method in js/map.js -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6y33u89IDJnhYIJhSrHqjHCbodmP0DT4&callback=initMap"></script>
+
+  </div>
+
+  <div data-role="footer" id="customFooter">
+     <a href="#home"data-icon="home">Return to Home</a>
+  </div>
+</div>
+
+<!-- END OF FIND A FACILITY PAGE -->
+
+<!-- MY ACCOUNT PAGE -->
+
+<div data-role="page" id="myAccount">
+
+  <div data-role="header">
+      <div id="customHeader">
+          PitchPicker 
+         </div>
+   <img src="images/logo.png" alt="App logo" width="100" height="100"/>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#home"data-icon="home">Home</a></li>
+        <li><a href="#bookings"data-icon="edit">Bookings</a></li>
+        <li><a href="#findFacility"data-icon="search">Find a Facility</a></li>
+        <li><a href="#myAccount"data-icon="star">My Account</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div data-role="content" >
+    <h2>My Account</h2>
+  
+
+    <div data-role="collapsibleset" data-theme="a" data-content-theme="a">
+      
+      <!-- FAQs section -->
+      <div data-role="collapsible">
+        <h1>FAQs</h1>
+        <h4>How do I book a football pitch?</h4>
+        <p>Pitches are booked via the "Bookings" tab. Here you can select the type of pitch, the size, the number of players etc.</p>
+        <h4>Can I also book football equipment?</h4>
+        <p>Yes! PitchPicker users can book equipment via the "Bookings" tab. To view the list of available equipment, just expand the option which says "Book Equipment".</p>
+        <h4>What sports facilities are available?</h4>
+        <p>We have a list of available facilities listed on the "Find a Facility" tab. From here you can click on your desired location. This will show the facility's contact details, as well as location via the Google Maps widget.</p>
+        <h4>Can I see my previous bookings?</h4>
+        <p>Yes. You can see a list of your previous bookings by going to the "My Account" tab and expanding the "Booking History" section. Previous bookings are listed with their unique Booking IDs. Please note: if you have never booked with us, you will not see anything in your "Booking History".</p>
+      </div>
+
+      <!-- Shows the booking history of logged in user - taken from Fbase.js -->
+      <div data-role="collapsible">
+        <h4>Booking History</h4> 
+      <form id="makecollapsible"></form>
+      </div>    
+    </div>
+  </div>
+
+    <div class="container">
+	  <button id="btnLogout" class="btn btn-hide">Sign Out</button>
+    </div>
+
+  <div data-role="footer" id="customFooter">
+     <a href="#home"data-icon="home">Return to Home</a>
+  </div>
+</div>
+
+<!-- END OF MY ACCOUNT PAGE -->
+
+<!-- BOOKING CONFIRMATION PAGE -->
+
+<div data-role="page" id="confirmation">
+
+  <div data-role="header">
+      <div id="customHeader">
+          PitchPicker 
+         </div>
+   <img src="images/logo.png" alt="App logo" width="100" height="100"/>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#home"data-icon="home">Home</a></li>
+        <li><a href="#bookings"data-icon="edit">Bookings</a></li>
+        <li><a href="#findFacility"data-icon="search">Find a Facility</a></li>
+        <li><a href="#myAccount"data-icon="star">My Account</a></li>
+      </ul>
+    </div>
+  </div>
+
+<!--
+  - this needs work
+  - cant pull data for only current logged in session
+-->
+
+  <div data-role="content" >
+    <h3>Your booking has been confirmed!</h3>
+  </div>
+
+  <div data-role="footer" id="customFooter">
+    <a href="#bookings"data-icon="arrow-l">Back</a>
+  </div>
+</div>
+
+
+<!--
+  - import the firebase auth / read / write scripts
+  - this done at the bottom of the file on purpose, to prevent errors
+-->
+<script src="js/fbase.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
